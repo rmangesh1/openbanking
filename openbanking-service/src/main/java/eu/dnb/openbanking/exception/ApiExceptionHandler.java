@@ -1,0 +1,65 @@
+package eu.dnb.openbanking.exception;
+
+import eu.dnb.openbanking.domain.vo.ErrorDetail;
+import eu.dnb.openbanking.domain.vo.ExceptionResponse;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import org.slf4j.Logger;
+
+import java.util.List;
+
+/*
+ * Created by rmang on 11-03-2018.
+*/
+
+@ControllerAdvice
+public class ApiExceptionHandler {
+
+    public static final Logger logger = LoggerFactory.getLogger(ApiExceptionHandler.class);
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ExceptionResponse> handleAllExceptions(Exception ex) {
+        logger.error("Exception occured : "+ex);
+        ExceptionResponse exceptionResponse = new ExceptionResponse(DNBError.INTERNAL_SERVER_ERROR.getErrorCode(),
+                DNBError.INTERNAL_SERVER_ERROR.getErrorMessage(),
+                DNBError.INTERNAL_SERVER_ERROR.getUriString(), null);
+        return new ResponseEntity<ExceptionResponse>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ExceptionResponse> handleEntityNotFoundException(EntityNotFoundException ex) {
+        logger.error("EntityNotFoundException occured : "+ex);
+        ExceptionResponse exceptionResponse = new ExceptionResponse(DNBError.MISSING_RESOURCE.getErrorCode(),
+                DNBError.MISSING_RESOURCE.getErrorMessage(),
+                DNBError.MISSING_RESOURCE.getUriString(), null);
+        return new ResponseEntity<ExceptionResponse>(exceptionResponse, HttpStatus.NOT_FOUND);
+
+    }
+
+    @ExceptionHandler(EntityAlreadyExistsException.class)
+    public ResponseEntity<ExceptionResponse> handleEntityNotFoundException(EntityAlreadyExistsException ex) {
+        logger.error("EntityAlreadyExistsException occured : "+ex);
+        ExceptionResponse exceptionResponse = new ExceptionResponse(DNBError.MISSING_RESOURCE.getErrorCode(),
+                DNBError.MISSING_RESOURCE.getErrorMessage(),
+                DNBError.MISSING_RESOURCE.getUriString(), null);
+        return new ResponseEntity<ExceptionResponse>(exceptionResponse, HttpStatus.NOT_FOUND);
+
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ExceptionResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+        logger.error("MethodArgumentNotValidException occured : "+ex);
+        List<ErrorDetail> errorDetails = ExceptionHelper.getBindingErrors(DNBError.REQUEST_DATA_ERROR.getErrorCode(), ex.getBindingResult());
+        ExceptionResponse exceptionResponse = new ExceptionResponse(DNBError.REQUEST_DATA_ERROR.name(),
+                DNBError.REQUEST_DATA_ERROR.getErrorMessage(),
+                DNBError.REQUEST_DATA_ERROR.getUriString(), errorDetails);
+        return new ResponseEntity<ExceptionResponse>(exceptionResponse, HttpStatus.NOT_FOUND);
+
+    }
+}
