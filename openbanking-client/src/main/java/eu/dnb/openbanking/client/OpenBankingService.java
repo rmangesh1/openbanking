@@ -4,6 +4,8 @@ import eu.dnb.openbanking.domain.Customer;
 import eu.dnb.openbanking.domain.vo.CustomerPatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
@@ -28,9 +30,10 @@ public class OpenBankingService {
         return restTemplate.getForEntity(baseUrl + "/customers/{customerId}", Customer.class, customerId);
     }
 
-    public Customer patchCustomer(String customerId, CustomerPatch customerPatch) {
+    public ResponseEntity<Customer> patchCustomer(String customerId, CustomerPatch customerPatch) {
         logger.info("Customer patch : "+customerPatch);
-        return restTemplate.patchForObject(baseUrl + "/customers/{customerId}", customerPatch,  Customer.class, customerId);
+        HttpEntity<CustomerPatch> customerPatchHttpEntity = new HttpEntity<CustomerPatch>(customerPatch);
+        return restTemplate.exchange(baseUrl + "/customers/{customerId}", HttpMethod.PATCH, customerPatchHttpEntity,  Customer.class, customerId);
     }
 
 }
