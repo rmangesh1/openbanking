@@ -45,10 +45,10 @@ public class ApiExceptionHandler {
     @ExceptionHandler(EntityAlreadyExistsException.class)
     public ResponseEntity<ExceptionResponse> handleEntityNotFoundException(EntityAlreadyExistsException ex) {
         logger.error("EntityAlreadyExistsException occured : "+ex);
-        ExceptionResponse exceptionResponse = new ExceptionResponse(DNBError.MISSING_RESOURCE.getErrorCode(),
-                DNBError.MISSING_RESOURCE.getErrorMessage(),
-                DNBError.MISSING_RESOURCE.getUriString(), null);
-        return new ResponseEntity<ExceptionResponse>(exceptionResponse, HttpStatus.NOT_FOUND);
+        ExceptionResponse exceptionResponse = new ExceptionResponse(DNBError.REQUEST_DATA_ERROR.getErrorCode(),
+                DNBError.REQUEST_DATA_ERROR.getErrorMessage(),
+                DNBError.REQUEST_DATA_ERROR.getUriString(), null);
+        return new ResponseEntity<ExceptionResponse>(exceptionResponse, HttpStatus.BAD_REQUEST);
 
     }
 
@@ -59,7 +59,7 @@ public class ApiExceptionHandler {
         ExceptionResponse exceptionResponse = new ExceptionResponse(DNBError.REQUEST_DATA_ERROR.name(),
                 DNBError.REQUEST_DATA_ERROR.getErrorMessage(),
                 DNBError.REQUEST_DATA_ERROR.getUriString(), errorDetails);
-        return new ResponseEntity<ExceptionResponse>(exceptionResponse, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<ExceptionResponse>(exceptionResponse, HttpStatus.BAD_REQUEST);
 
     }
 }

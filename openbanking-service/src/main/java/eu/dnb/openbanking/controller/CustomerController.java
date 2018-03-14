@@ -34,7 +34,7 @@ public class CustomerController {
         return customer;
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<Customer> saveCustomer(@RequestBody @Valid Customer customer) {
         Customer persistedCustomer = customerService.findCustomerById(customer.getCustomerId());
 
