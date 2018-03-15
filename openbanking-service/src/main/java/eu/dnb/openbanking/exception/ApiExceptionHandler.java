@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import org.slf4j.Logger;
 
+import java.util.Arrays;
 import java.util.List;
 
 /*
@@ -37,7 +38,7 @@ public class ApiExceptionHandler {
         logger.error("EntityNotFoundException occured : "+ex);
         ExceptionResponse exceptionResponse = new ExceptionResponse(DNBError.MISSING_RESOURCE.getErrorCode(),
                 DNBError.MISSING_RESOURCE.getErrorMessage(),
-                DNBError.MISSING_RESOURCE.getUriString(), null);
+                DNBError.MISSING_RESOURCE.getUriString(), Arrays.asList(new ErrorDetail(DNBError.MISSING_RESOURCE.getErrorCode(), null, ex.getMessage())));
         return new ResponseEntity<ExceptionResponse>(exceptionResponse, HttpStatus.NOT_FOUND);
 
     }
@@ -47,7 +48,7 @@ public class ApiExceptionHandler {
         logger.error("EntityAlreadyExistsException occured : "+ex);
         ExceptionResponse exceptionResponse = new ExceptionResponse(DNBError.REQUEST_DATA_ERROR.getErrorCode(),
                 DNBError.REQUEST_DATA_ERROR.getErrorMessage(),
-                DNBError.REQUEST_DATA_ERROR.getUriString(), null);
+                DNBError.REQUEST_DATA_ERROR.getUriString(), Arrays.asList(new ErrorDetail(DNBError.REQUEST_DATA_ERROR.getErrorCode(), null, ex.getMessage())));
         return new ResponseEntity<ExceptionResponse>(exceptionResponse, HttpStatus.BAD_REQUEST);
 
     }
