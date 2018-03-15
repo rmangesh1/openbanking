@@ -1,6 +1,5 @@
 package eu.dnb.openbanking.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import eu.dnb.openbanking.domain.Customer;
 import eu.dnb.openbanking.domain.vo.CustomerPatch;
 import eu.dnb.openbanking.service.CustomerService;
@@ -13,7 +12,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.hamcrest.Matchers.containsString;
