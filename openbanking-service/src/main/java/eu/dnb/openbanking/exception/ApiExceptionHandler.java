@@ -28,7 +28,7 @@ public class ApiExceptionHandler {
         logger.error("Exception occured : "+ex);
         ExceptionResponse exceptionResponse = new ExceptionResponse(DNBError.INTERNAL_SERVER_ERROR.getErrorCode(),
                 DNBError.INTERNAL_SERVER_ERROR.getErrorMessage(),
-                DNBError.INTERNAL_SERVER_ERROR.getUriString(), null);
+                DNBError.INTERNAL_SERVER_ERROR.getUriString(), Arrays.asList(new ErrorDetail(DNBError.INTERNAL_SERVER_ERROR.getErrorCode(), null, "Something bad happened!")));
         return new ResponseEntity<ExceptionResponse>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
 
     }
