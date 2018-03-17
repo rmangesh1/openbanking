@@ -1,6 +1,7 @@
 package eu.dnb.openbanking.domain.vo;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 /**
@@ -8,9 +9,11 @@ import javax.validation.constraints.Pattern;
  */
 public class CustomerPatch {
 
+    @NotNull
     @Email
     private String email;
 
+    @NotNull
     @Pattern(regexp = "^\\+?[1-9]\\d{1,14}$")
     private String phone;
 

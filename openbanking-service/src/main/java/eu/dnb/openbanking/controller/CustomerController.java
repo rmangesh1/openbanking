@@ -57,7 +57,7 @@ public class CustomerController {
     }
 
     @PatchMapping("/{customerId}")
-    public Customer patchCustomer(@PathVariable String customerId, @RequestBody CustomerPatch customerPatch) {
+    public Customer patchCustomer(@PathVariable String customerId, @RequestBody @Valid CustomerPatch customerPatch) {
         Customer customer = customerService.findCustomerById(customerId);
         if(customer == null) {
             throw new EntityNotFoundException("Customer with ID: "+customerId+ " not found.");

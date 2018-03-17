@@ -126,10 +126,14 @@ public class CustomerControllerTest {
     public void testPatchCustomerFailure() throws Exception {
         String customerId = "12345678901";
 
+        CustomerPatch customerPatch = new CustomerPatch();
+        customerPatch.setEmail("a@a.com");
+        customerPatch.setPhone("234234324");
+
         when(customerService.findCustomerById(customerId)).thenReturn(null);
         mockMvc.perform(patch("/customers/{customerId}", customerId)
         .contentType(MediaType.asMediaType(MediaType.APPLICATION_JSON))
-        .content(asJsonString(new CustomerPatch())))
+        .content(asJsonString(customerPatch)))
                 .andExpect(status().isNotFound());
         verify(customerService, times(1)).findCustomerById(customerId);
         verifyNoMoreInteractions(customerService);
