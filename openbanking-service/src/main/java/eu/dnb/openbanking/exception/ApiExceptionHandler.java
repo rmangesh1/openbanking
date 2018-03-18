@@ -5,6 +5,7 @@ import eu.dnb.openbanking.domain.vo.ExceptionResponse;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -78,11 +79,21 @@ public class ApiExceptionHandler {
 
     @ExceptionHandler(NoHandlerFoundException.class)
     public ResponseEntity<ExceptionResponse> handleNoHandlerFoundException(NoHandlerFoundException ex) {
-        logger.error("HttpRequestMethodNotSupportedException occured : "+ex);
+        logger.error("NoHandlerFoundException occured : "+ex);
         ExceptionResponse exceptionResponse = new ExceptionResponse(DNBError.INCORRECT_URI.getErrorCode(),
                 DNBError.INCORRECT_URI.getErrorMessage(),
                 DNBError.INCORRECT_URI.getUriString(), Arrays.asList(new ErrorDetail(DNBError.INCORRECT_URI.getErrorCode(), null, DNBError.INCORRECT_URI.getErrorMessage())));
         return new ResponseEntity<ExceptionResponse>(exceptionResponse, HttpStatus.NOT_FOUND);
+
+    }
+
+    @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
+    public ResponseEntity<ExceptionResponse> handleHttpMediaTypeNotSupportedException(HttpMediaTypeNotSupportedException ex) {
+        logger.error("HttpMediaTypeNotSupportedException occured : "+ex);
+        ExceptionResponse exceptionResponse = new ExceptionResponse(DNBError.REQUEST_DATA_ERROR.getErrorCode(),
+                DNBError.REQUEST_DATA_ERROR.getErrorMessage(),
+                DNBError.REQUEST_DATA_ERROR.getUriString(), Arrays.asList(new ErrorDetail(DNBError.REQUEST_DATA_ERROR.getErrorCode(), null, DNBError.REQUEST_DATA_ERROR.getErrorMessage() + ". Unsupported Media Type")));
+        return new ResponseEntity<ExceptionResponse>(exceptionResponse, HttpStatus.UNSUPPORTED_MEDIA_TYPE);
 
     }
 
