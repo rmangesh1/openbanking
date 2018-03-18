@@ -5,6 +5,7 @@ import eu.dnb.openbanking.domain.vo.ExceptionResponse;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -61,6 +62,16 @@ public class ApiExceptionHandler {
                 DNBError.REQUEST_DATA_ERROR.getErrorMessage(),
                 DNBError.REQUEST_DATA_ERROR.getUriString(), errorDetails);
         return new ResponseEntity<ExceptionResponse>(exceptionResponse, HttpStatus.BAD_REQUEST);
+
+    }
+
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity<ExceptionResponse> handleAllExceptions(HttpRequestMethodNotSupportedException ex) {
+        logger.error("Exception occured : "+ex);
+        ExceptionResponse exceptionResponse = new ExceptionResponse(DNBError.METHOD_NOT_SUPPORTED.getErrorCode(),
+                DNBError.METHOD_NOT_SUPPORTED.getErrorMessage(),
+                DNBError.METHOD_NOT_SUPPORTED.getUriString(), Arrays.asList(new ErrorDetail(DNBError.METHOD_NOT_SUPPORTED.getErrorCode(), null, DNBError.METHOD_NOT_SUPPORTED.getErrorMessage())));
+        return new ResponseEntity<ExceptionResponse>(exceptionResponse, HttpStatus.METHOD_NOT_ALLOWED);
 
     }
 }

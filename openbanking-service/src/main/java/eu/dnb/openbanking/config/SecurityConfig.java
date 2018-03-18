@@ -1,5 +1,7 @@
 package eu.dnb.openbanking.config;
 
+import eu.dnb.openbanking.auth.RestAuthenticationEntryPoint;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -15,7 +17,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/customers/**").authenticated()
                 .anyRequest().permitAll()
                 .and()
-                .httpBasic().and()
+                .httpBasic().realmName("openbanking").authenticationEntryPoint(restAuthenticationEntryPoint()).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+    }
+
+    @Bean
+    public RestAuthenticationEntryPoint restAuthenticationEntryPoint() {
+        return new RestAuthenticationEntryPoint();
     }
 }
