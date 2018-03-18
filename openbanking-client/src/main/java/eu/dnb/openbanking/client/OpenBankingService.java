@@ -31,7 +31,7 @@ public class OpenBankingService {
     }
 
     public ResponseEntity<Customer> patchCustomer(String customerId, CustomerPatch customerPatch) {
-        logger.info("Customer patch : "+customerPatch);
+        logger.info("Customer id : "+customerId + ", Customer patch : "+customerPatch);
         HttpEntity<CustomerPatch> customerPatchHttpEntity = new HttpEntity<CustomerPatch>(customerPatch);
         return restTemplate.exchange(baseUrl + "/customers/{customerId}", HttpMethod.PATCH, customerPatchHttpEntity,  Customer.class, customerId);
     }

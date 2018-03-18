@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import org.slf4j.Logger;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 import java.util.Arrays;
 import java.util.List;
@@ -66,12 +67,23 @@ public class ApiExceptionHandler {
     }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public ResponseEntity<ExceptionResponse> handleAllExceptions(HttpRequestMethodNotSupportedException ex) {
-        logger.error("Exception occured : "+ex);
+    public ResponseEntity<ExceptionResponse> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException ex) {
+        logger.error("HttpRequestMethodNotSupportedException occured : "+ex);
         ExceptionResponse exceptionResponse = new ExceptionResponse(DNBError.METHOD_NOT_SUPPORTED.getErrorCode(),
                 DNBError.METHOD_NOT_SUPPORTED.getErrorMessage(),
                 DNBError.METHOD_NOT_SUPPORTED.getUriString(), Arrays.asList(new ErrorDetail(DNBError.METHOD_NOT_SUPPORTED.getErrorCode(), null, DNBError.METHOD_NOT_SUPPORTED.getErrorMessage())));
         return new ResponseEntity<ExceptionResponse>(exceptionResponse, HttpStatus.METHOD_NOT_ALLOWED);
 
     }
+
+    @ExceptionHandler(NoHandlerFoundException.class)
+    public ResponseEntity<ExceptionResponse> handleNoHandlerFoundException(NoHandlerFoundException ex) {
+        logger.error("HttpRequestMethodNotSupportedException occured : "+ex);
+        ExceptionResponse exceptionResponse = new ExceptionResponse(DNBError.INCORRECT_URI.getErrorCode(),
+                DNBError.INCORRECT_URI.getErrorMessage(),
+                DNBError.INCORRECT_URI.getUriString(), Arrays.asList(new ErrorDetail(DNBError.INCORRECT_URI.getErrorCode(), null, DNBError.INCORRECT_URI.getErrorMessage())));
+        return new ResponseEntity<ExceptionResponse>(exceptionResponse, HttpStatus.NOT_FOUND);
+
+    }
+
 }
