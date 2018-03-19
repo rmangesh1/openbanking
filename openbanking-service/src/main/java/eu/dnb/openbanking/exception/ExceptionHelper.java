@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by rmang on 11-03-2018.
+ * Created by rmang on 15-03-2018.
  */
 public class ExceptionHelper {
     public static List<ErrorDetail> getBindingErrors(String dnbError, BindingResult bindingResult) {

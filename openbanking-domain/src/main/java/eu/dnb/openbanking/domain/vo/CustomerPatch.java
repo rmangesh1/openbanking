@@ -5,7 +5,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 /**
- * Created by rmang on 11-03-2018.
+ * Created by rmang on 15-03-2018.
  */
 public class CustomerPatch {
 

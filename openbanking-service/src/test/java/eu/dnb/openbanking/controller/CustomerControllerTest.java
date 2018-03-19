@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
- * Created by rmang on 14-03-2018.
+ * Created by rmang on 16-03-2018.
  */
 public class CustomerControllerTest {
 
