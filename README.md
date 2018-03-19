@@ -12,9 +12,10 @@ GET, PATCH, POST service for customer resource.
 ### Installing steps
 ```
 1.Checkout the project
-2.cd .. to openbanking/openbanking-service
-2.mvn clean install
-3.mvn spring-boot:run (Or run OpenBankingApplication.java)
+2.cd .. to openbanking
+3.mvn clean install
+4.cd.. to openbanking-service
+5.mvn spring-boot:run (Or run OpenBankingApplication.java)
  
 Access the rest-api at,
 http://localhost:9000/customers
